@@ -1,0 +1,24 @@
+# Virtual environment
+venv/
+*.venv
+env/
+
+# Data files (assuming they are large and downloaded via API/script)
+data/
+*.zip
+*.csv
+
+# Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# VS Code settings specific to your machine
+.vscode/
+
+# Mac system files
+.DS_Store
