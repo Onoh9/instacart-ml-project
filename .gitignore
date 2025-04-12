@@ -3,10 +3,10 @@ venv/
 *.venv
 env/
 
-# # Data files (assuming they are large and downloaded via API/script)
-# data/
-# *.zip
-# *.csv
+# Data files (assuming they are large and downloaded via API/script)
+data/
+*.zip
+*.csv
 
 # Python cache and compiled files
 __pycache__/
@@ -27,24 +27,24 @@ __pycache__/
 instacart-market-basket-analysis.zip
 instacart-online-grocery-basket-analysis-dataset.zip
 
-#ignore data, but add exceptions
-data/
-*.csv
-*.zip
+# #ignore data, but add exceptions
+# data/
+# *.csv
+# *.zip
 
 
 
-# !data/partB_user_features.csv
-# !data/partB_product_features.csv
-# !data/products.csv
-# !data/user_to_prior_products.pkl
+# # !data/partB_user_features.csv
+# # !data/partB_product_features.csv
+# # !data/products.csv
+# # !data/user_to_prior_products.pkl
 
-# !partB_user_aisle_counts.csv
-# !data/partB_user_dept_rrates.csv
-# !data/partB_user_aisle_rrates.csv
+# # !partB_user_aisle_counts.csv
+# # !data/partB_user_dept_rrates.csv
+# # !data/partB_user_aisle_rrates.csv
 
-# !data/final_features_15.csv
-# !data/orders.csv
-# !data/order_products__prior.csv
+# # !data/final_features_15.csv
+# # !data/orders.csv
+# # !data/order_products__prior.csv
 
 
