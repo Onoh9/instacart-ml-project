@@ -29,20 +29,22 @@ instacart-online-grocery-basket-analysis-dataset.zip
 
 #ignore data, but add exceptions
 data/
+*.csv
+*.zip
 
 
 
-!data/partB_user_features.csv
-!data/partB_product_features.csv
-!data/products.csv
-!data/user_to_prior_products.pkl
+# !data/partB_user_features.csv
+# !data/partB_product_features.csv
+# !data/products.csv
+# !data/user_to_prior_products.pkl
 
-!partB_user_aisle_counts.csv
-!data/partB_user_dept_rrates.csv
-!data/partB_user_aisle_rrates.csv
+# !partB_user_aisle_counts.csv
+# !data/partB_user_dept_rrates.csv
+# !data/partB_user_aisle_rrates.csv
 
-!data/final_features_15.csv
-!data/orders.csv
-!data/order_products__prior.csv
+# !data/final_features_15.csv
+# !data/orders.csv
+# !data/order_products__prior.csv
 
 
