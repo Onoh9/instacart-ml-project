@@ -10,13 +10,13 @@ import requests
 import io
 
 urls = [
-    "https://dl.dropboxusercontent.com/scl/fi/9zqre984c43873zuz2qo7/partB_user_features.csv?rlkey=isymkzctsclis73fv6oojd9ex&st=jgt0qkdw&dl=0", 
-    "https://dl.dropboxusercontent.com/scl/fi/t1bun6dtybozrslwc6urt/products.csv?rlkey=r9zhg9nud2pqj5ttfdankpscc&st=mjhcdek8&dl=0", 
-    "https://dl.dropboxusercontent.com/scl/fi/666ahaeg4uwnv4cw858sz/partB_product_features.csv?rlkey=1kdqpxk1omkb9vo6zz2fijqjk&st=uz3k6v1a&dl=0",
-    "https://dl.dropboxusercontent.com/scl/fi/mlvgy30cdkn5j2i7aq6gj/order_products__train.csv?rlkey=iihcp90axw961pmh23gh6hmdi&st=oldk6qt5&dl=0",
-    "https://dl.dropboxusercontent.com/scl/fi/wcf04f71f1ays503mbfdx/aisles.csv?rlkey=t1i34r7v5lfaxib620i92lile&st=apr7pk10&dl=0",
-    "https://dl.dropboxusercontent.com/scl/fi/apyn6bf2rqlbq0qfnk6c1/departments.csv?rlkey=uc3a21hwnrigdisvtfognygni&st=0kfum2mt&dl=0",
-    "https://dl.dropboxusercontent.com/scl/fi/bfzc7e7lq65t0si04kc22/user_to_prior_products.pkl?rlkey=chjv75w9pfwkv067m2cibvmoz&st=71lohttw&dl=0"
+    "https://dl.dropboxusercontent.com/scl/fi/9zqre984c43873zuz2qo7/partB_user_features.csv?rlkey=isymkzctsclis73fv6oojd9ex&st=jgt0qkdw&dl=1", 
+    "https://dl.dropboxusercontent.com/scl/fi/t1bun6dtybozrslwc6urt/products.csv?rlkey=r9zhg9nud2pqj5ttfdankpscc&st=mjhcdek8&dl=1", 
+    "https://dl.dropboxusercontent.com/scl/fi/666ahaeg4uwnv4cw858sz/partB_product_features.csv?rlkey=1kdqpxk1omkb9vo6zz2fijqjk&st=uz3k6v1a&dl=1",
+    "h",
+    "h",
+    "h",
+    "https://dl.dropboxusercontent.com/scl/fi/bfzc7e7lq65t0si04kc22/user_to_prior_products.pkl?rlkey=chjv75w9pfwkv067m2cibvmoz&st=71lohttw&dl=1"
 ]
 #key
 # 0 - partbuf
@@ -63,7 +63,7 @@ def load_part_b_assets():
         # with open(lookup_path, 'rb') as f:
         #     assets['user_prior_prods_lookup'] = pickle.load(f)
 
-        lookup_url = "https://dl.dropboxusercontent.com/scl/fi/bfzc7e7lq65t0si04kc22/user_to_prior_products.pkl?rlkey=chjv75w9pfwkv067m2cibvmoz&st=71lohttw&dl=0"
+        lookup_url = "https://dl.dropboxusercontent.com/scl/fi/bfzc7e7lq65t0si04kc22/user_to_prior_products.pkl?rlkey=chjv75w9pfwkv067m2cibvmoz&st=71lohttw&dl=1"
 
         response = requests.get(lookup_url)
         if response.status_code == 200:
