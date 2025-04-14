@@ -11,3 +11,5 @@ st.title("🛒 Instacart Customer Behavior Analysis")
 st.sidebar.success("Select an analysis page above.") # Add hint to sidebar
 st.markdown("Welcome! Use the sidebar navigation to explore the project.")
 # Add any other introductory text or images you want on the main landing pagels
+
+
