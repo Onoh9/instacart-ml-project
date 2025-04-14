@@ -6,6 +6,29 @@ st.set_page_config(layout="wide") # Use wide layout for better space
 
 st.title("Instacart Market Basket Analysis")
 
+
+import pandas as pd
+import streamlit as st
+import requests
+import io
+
+urls = [
+    "https://dl.dropboxusercontent.com/scl/fi/2rn0or513p7ymuawqfrii/orders.csv?rlkey=pumd9hwijfrblsu60iqrz0df6&st=hwp2dbnb&dl=0", 
+    "https://dl.dropboxusercontent.com/scl/fi/t1bun6dtybozrslwc6urt/products.csv?rlkey=r9zhg9nud2pqj5ttfdankpscc&st=mjhcdek8&dl=0", 
+    "https://dl.dropboxusercontent.com/scl/fi/o55l7dyk17n9ta1rttg18/order_products__prior.csv?rlkey=08hx7wpnmxvyble4rss9s8xus&st=5zrrvwe2&dl=0",
+    "https://dl.dropboxusercontent.com/scl/fi/mlvgy30cdkn5j2i7aq6gj/order_products__train.csv?rlkey=iihcp90axw961pmh23gh6hmdi&st=oldk6qt5&dl=0",
+    "https://dl.dropboxusercontent.com/scl/fi/wcf04f71f1ays503mbfdx/aisles.csv?rlkey=t1i34r7v5lfaxib620i92lile&st=apr7pk10&dl=0",
+    "https://dl.dropboxusercontent.com/scl/fi/apyn6bf2rqlbq0qfnk6c1/departments.csv?rlkey=uc3a21hwnrigdisvtfognygni&st=0kfum2mt&dl=0"
+]
+@st.cache_data
+def load_data(url_index):
+    url = urls[url_index]
+    response = requests.get(url)
+    if response.status_code != 200:
+        st.error(f"Failed to load data from URL {url_index}")
+        return None
+    return pd.read_csv(io.BytesIO(response.content))
+
 # --- Add Buttons Below Title ---
 
 # Define custom CSS for button colors using Markdown
@@ -112,15 +135,15 @@ st.markdown("""
 # sample_orders_head = pd.read_csv('path_to_saved_head_sample.csv') # Or define manually
 # st.dataframe(sample_orders_head)
 #st.info("This table tracks individual orders and their timing.") # Use info/success/warning boxes
-orders = pd.read_csv('./data/orders.csv')
-st.dataframe(orders.head())
+orders = load_data(0)
+st.write(orders.head())
 
 st.subheader("2. `products.csv` - The Product Catalog")
 st.markdown("""
 *   **Purpose:** Lists all unique products available.
 *   **Key Columns:** `product_id`, `product_name`, `aisle_id`, `department_id`.
 """)
-products = pd.read_csv('./data/products.csv')
+products = load_data(1)
 st.dataframe(products.head())
 
 st.subheader("3. `order_products_prior.csv` & `order-products_train.csv` - Order Contents")
@@ -130,8 +153,8 @@ st.markdown("""
     *   `__train.csv`: Contents of the specific 'train' orders used for defining our target.
 *   **Key Columns:** `order_id`, `product_id`, `add_to_cart_order`, `reordered` (1 if bought previously by user, 0 if first time).
 """)
-order_products_prior = pd.read_csv('./data/order_products__prior.csv')
-order_products_train = pd.read_csv('./data/order_products__train.csv')
+order_products_prior = load_data(2)
+order_products_train = load_data(3)
 st.dataframe(order_products_prior.head())
 st.dataframe(order_products_train.head())
 st.subheader("Reordered Item Distribution (Prior Orders)")
@@ -151,8 +174,8 @@ st.markdown("""
 *   **Purpose:** Translate `aisle_id` and `department_id` into human-readable names.
 *   **Columns:** `aisle_id`, `aisle` (name); `department_id`, `department` (name).
             """)
-aisles = pd.read_csv('./data/aisles.csv')
-departments = pd.read_csv('./data/departments.csv')
+aisles = load_data(4)
+departments = load_data(5)
 st.dataframe(aisles.head())
 st.dataframe(departments.head())
 

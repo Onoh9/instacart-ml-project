@@ -5,8 +5,8 @@ env/
 
 # Data files (assuming they are large and downloaded via API/script)
 data/
-*.zip
 *.csv
+*.zip
 
 # Python cache and compiled files
 __pycache__/
@@ -47,4 +47,5 @@ instacart-online-grocery-basket-analysis-dataset.zip
 # # !data/orders.csv
 # # !data/order_products__prior.csv
 
-
+data/
+pages/5_temp.py

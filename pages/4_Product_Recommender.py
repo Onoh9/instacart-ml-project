@@ -6,6 +6,35 @@ import os
 import pickle # To load the prior products lookup
 import gc
 import time
+import requests
+import io
+
+urls = [
+    "https://dl.dropboxusercontent.com/scl/fi/9zqre984c43873zuz2qo7/partB_user_features.csv?rlkey=isymkzctsclis73fv6oojd9ex&st=jgt0qkdw&dl=0", 
+    "https://dl.dropboxusercontent.com/scl/fi/t1bun6dtybozrslwc6urt/products.csv?rlkey=r9zhg9nud2pqj5ttfdankpscc&st=mjhcdek8&dl=0", 
+    "https://dl.dropboxusercontent.com/scl/fi/666ahaeg4uwnv4cw858sz/partB_product_features.csv?rlkey=1kdqpxk1omkb9vo6zz2fijqjk&st=uz3k6v1a&dl=0",
+    "https://dl.dropboxusercontent.com/scl/fi/mlvgy30cdkn5j2i7aq6gj/order_products__train.csv?rlkey=iihcp90axw961pmh23gh6hmdi&st=oldk6qt5&dl=0",
+    "https://dl.dropboxusercontent.com/scl/fi/wcf04f71f1ays503mbfdx/aisles.csv?rlkey=t1i34r7v5lfaxib620i92lile&st=apr7pk10&dl=0",
+    "https://dl.dropboxusercontent.com/scl/fi/apyn6bf2rqlbq0qfnk6c1/departments.csv?rlkey=uc3a21hwnrigdisvtfognygni&st=0kfum2mt&dl=0",
+    "https://dl.dropboxusercontent.com/scl/fi/bfzc7e7lq65t0si04kc22/user_to_prior_products.pkl?rlkey=chjv75w9pfwkv067m2cibvmoz&st=71lohttw&dl=0"
+]
+#key
+# 0 - partbuf
+# 1 - products
+# 2 - partbpf
+# 3 - partbuac
+# 4 - partbudr
+# 5 - partbuar
+# 6 - upd
+@st.cache_data
+def load_data(url_index):
+    url = urls[url_index]
+    response = requests.get(url)
+    if response.status_code != 200:
+        st.error(f"Failed to load data from URL {url_index}")
+        return None
+    return pd.read_csv(io.BytesIO(response.content))
+
 
 # --- Configuration & Data/Model Loading ---
 st.set_page_config(layout="wide")
@@ -20,19 +49,25 @@ def load_part_b_assets():
     assets = {}
     try:
         # Load features and set index AFTER loading
-        assets['user_features'] = pd.read_csv(os.path.join(data_path, 'partB_user_features.csv'))
-        assets['product_features'] = pd.read_csv(os.path.join(data_path, 'partB_product_features.csv'))
-        assets['products'] = pd.read_csv(os.path.join(data_path, 'products.csv'), dtype={'product_id': 'int32', 'aisle_id': 'int16', 'department_id': 'int8'})
+        assets['user_features'] = load_data(0)
+        assets['product_features'] = load_data(2)
+        assets['products'] = load_data(1)
 
         # Set index now
         assets['user_features'].set_index('user_id', inplace=True)
         assets['product_features'].set_index('product_id', inplace=True)
         assets['products'].set_index('product_id', inplace=True)
 
-        # Load the lookup dictionary
-        lookup_path = os.path.join(data_path, 'user_to_prior_products.pkl')
-        with open(lookup_path, 'rb') as f:
-            assets['user_prior_prods_lookup'] = pickle.load(f)
+        # # Load the lookup dictionary
+        # lookup_path = os.path.join(data_path, 'user_to_prior_products.pkl')
+        # with open(lookup_path, 'rb') as f:
+        #     assets['user_prior_prods_lookup'] = pickle.load(f)
+
+        lookup_url = "https://dl.dropboxusercontent.com/scl/fi/bfzc7e7lq65t0si04kc22/user_to_prior_products.pkl?rlkey=chjv75w9pfwkv067m2cibvmoz&st=71lohttw&dl=0"
+
+        response = requests.get(lookup_url)
+        if response.status_code == 200:
+            assets['user_prior_prods_lookup'] = pickle.load(io.BytesIO(response.content))
 
         # --- Load Optional Interaction Feature Lookups ---
         # Initialize to None

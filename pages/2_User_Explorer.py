@@ -4,16 +4,35 @@ import numpy as np
 import xgboost as xgb
 import joblib # Or pickle, or use xgb.Booster().load_model()
 import os
+import requests
+import io
+
+urls = [
+    "https://dl.dropboxusercontent.com/scl/fi/2rn0or513p7ymuawqfrii/orders.csv?rlkey=pumd9hwijfrblsu60iqrz0df6&st=hwp2dbnb&dl=0", 
+    "https://dl.dropboxusercontent.com/scl/fi/t1bun6dtybozrslwc6urt/products.csv?rlkey=r9zhg9nud2pqj5ttfdankpscc&st=mjhcdek8&dl=0", 
+    "https://dl.dropboxusercontent.com/scl/fi/o55l7dyk17n9ta1rttg18/order_products__prior.csv?rlkey=08hx7wpnmxvyble4rss9s8xus&st=5zrrvwe2&dl=0",
+    "https://dl.dropboxusercontent.com/scl/fi/mlvgy30cdkn5j2i7aq6gj/order_products__train.csv?rlkey=iihcp90axw961pmh23gh6hmdi&st=oldk6qt5&dl=0",
+    "https://dl.dropboxusercontent.com/scl/fi/wcf04f71f1ays503mbfdx/aisles.csv?rlkey=t1i34r7v5lfaxib620i92lile&st=apr7pk10&dl=0",
+    "https://dl.dropboxusercontent.com/scl/fi/apyn6bf2rqlbq0qfnk6c1/departments.csv?rlkey=uc3a21hwnrigdisvtfognygni&st=0kfum2mt&dl=0",
+    "https://dl.dropboxusercontent.com/scl/fi/jwjm14ouozq21x6q0kft7/final_features_15.csv?rlkey=v1mccoup2wjr7fw926g9ggckt&st=lb7b9ccd&dl=0"
+]
 
 # --- Configuration & Data Loading ---
 # @st.cache_data is crucial for performance - it loads data only once
 @st.cache_data
+def load_dataset(url_index):
+    url = urls[url_index]
+    response = requests.get(url)
+    if response.status_code != 200:
+        st.error(f"Failed to load data from URL {url_index}")
+        return None
+    return pd.read_csv(io.BytesIO(response.content))
 def load_data():
     data_path = 'data' # Make sure this path is correct
     print("Loading features data...") # Will only print on first run/cache miss
     try:
         # Load the FINAL features dataframe (15 features + user_id)
-        features = pd.read_csv(os.path.join(data_path, 'final_features_15.csv')) # SAVE THIS FROM YOUR NOTEBOOK
+        features = load_dataset(6) # SAVE THIS FROM YOUR NOTEBOOK
     except FileNotFoundError:
         st.error("ERROR: `final_features_15.csv` not found. Please generate and save it first.")
         return None, None, None
@@ -22,9 +41,9 @@ def load_data():
     print("Loading order history data (optional)...")
     try:
         # Pre-process and save a smaller file if possible
-        orders = pd.read_csv(os.path.join(data_path, 'orders.csv'), dtype={'user_id': 'int32', 'order_id': 'int32', 'order_number': 'int16'})
-        opp = pd.read_csv(os.path.join(data_path, 'order_products__prior.csv'), dtype={'order_id': 'int32', 'product_id': 'int32'})
-        prods = pd.read_csv(os.path.join(data_path, 'products.csv'), dtype={'product_id': 'int32'})
+        orders = load_dataset(0)
+        opp = load_dataset(2)
+        prods = load_dataset(1)
         # Merge product names for display
         order_history_base = opp.merge(prods[['product_id', 'product_name']], on='product_id')
         order_history_base = order_history_base.merge(orders[['order_id', 'user_id', 'order_number']], on='order_id')
