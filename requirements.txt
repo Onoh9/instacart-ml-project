@@ -1,18 +1,18 @@
-# requirements.txt
-requests
-io
-os
-streamlit
-pandas
-numpy
-xgboost
-lightgbm
-scikit-learn
-scipy
-pickle5 # Sometimes needed for pickle compatibility across python versions
+# # requirements.txt
+# requests
+# io
+# os
+# streamlit
+# pandas
+# numpy
+# xgboost
+# lightgbm
+# scikit-learn
+# scipy
+# pickle5 # Sometimes needed for pickle compatibility across python versions
 
-# Optional - Add only if you explicitly load models using joblib
-# joblib
+# # Optional - Add only if you explicitly load models using joblib
+# # joblib
 
-# Optional - Add Pillow if st.image has issues, but usually not needed
-# Pillow
+# # Optional - Add Pillow if st.image has issues, but usually not needed
+# # Pillow
