@@ -7,7 +7,7 @@ xgboost
 lightgbm
 scikit-learn
 scipy
-pickle5 # Sometimes needed for pickle compatibility across python versions
+#pickle5 # Sometimes needed for pickle compatibility across python versions
 
 # Optional - Add only if you explicitly load models using joblib
 # joblib
